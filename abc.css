@@ -1,0 +1,172 @@
+/* ===== BASE ===== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at center, #020617, #000);
+  color: #00ffcc;
+  overflow-x: hidden;
+}
+
+/* Cursor Glow */
+.cursor-glow {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #00ffcc33, transparent);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* Floating Orbs */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.orb1 { width:200px; height:200px; background:#00ffcc; top:20%; left:10%; }
+.orb2 { width:300px; height:300px; background:#8b5cf6; top:60%; left:70%; }
+.orb3 { width:250px; height:250px; background:#6366f1; top:30%; left:80%; }
+
+.orb {
+  animation: float 10s infinite alternate ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-60px); }
+}
+
+/* Container */
+.container {
+  position: relative;
+  padding: 40px;
+  z-index: 2;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+header h1 {
+  font-size: 50px;
+  text-shadow: 0 0 25px #00ffcc;
+}
+
+/* Typing */
+.typing {
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+/* ===== PROBLEM SECTION ===== */
+.problem-section {
+  margin-bottom: 80px;
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+}
+
+.problem-box {
+  background: rgba(255,0,0,0.08);
+  border: 1px solid #ff4d4d;
+  padding: 20px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.problem-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #ff4d4d;
+}
+
+/* ===== SOLUTION SECTION ===== */
+.solution-section h2,
+.problem-section h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+/* Panels */
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+}
+
+.panel {
+  background: rgba(0,255,204,0.05);
+  border: 1px solid #00ffcc;
+  padding: 20px;
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  transition: 0.3s;
+}
+
+.panel:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 30px #00ffcc;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: black;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+}
+
+/* Buttons */
+button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(90deg, #00ffcc, #8b5cf6);
+  border: none;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Progress */
+.bar {
+  height: 10px;
+  background: #111;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: #00ffcc;
+  width: 0%;
+}
+
+/* Task */
+li {
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 60px;
+  opacity: 0.7;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Student Command Center</title>
+<link rel="stylesheet" href="abc.css">
+</head>
+
+<body>
+
+<div class="cursor-glow"></div>
+
+<!-- Floating Orbs -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <h1>🤖 AI Student Command Center</h1>
+    <p class="typing" id="typingText"></p>
+  </header>
+
+  <!-- 🔴 PROBLEM SECTION -->
+  <section class="problem-section">
+    <h2>⚠️ The Student Problem</h2>
+
+    <div class="problem-grid">
+      <div class="problem-box">
+        <h3>😵 Procrastination</h3>
+        <p>Students delay work and miss deadlines</p>
+      </div>
+
+      <div class="problem-box">
+        <h3>📉 Poor Planning</h3>
+        <p>No structured study schedule</p>
+      </div>
+
+      <div class="problem-box">
+        <h3>🧠 Lack of Focus</h3>
+        <p>Distractions reduce productivity</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🟢 SOLUTION SECTION -->
+  <section class="solution-section">
+    <h2>🚀 Our AI Solution</h2>
+
+    <div class="panels">
+
+      <!-- Task Engine -->
+      <div class="panel">
+        <h3>📋 Task Engine</h3>
+        <input id="taskInput" placeholder="Enter mission...">
+        <button onclick="addTask()">Execute</button>
+        <ul id="taskList"></ul>
+      </div>
+
+      <!-- Focus -->
+      <div class="panel">
+        <h3>🎯 Focus Engine</h3>
+        <h1 id="timer">25:00</h1>
+        <button onclick="startTimer()">Start Focus</button>
+      </div>
+
+      <!-- AI -->
+      <div class="panel">
+        <h3>🧠 AI Brain</h3>
+        <input id="aiInput" placeholder="Enter subject...">
+        <button onclick="runAI()">Generate Plan</button>
+        <button onclick="startVoice()">🎤 Speak</button>
+        <div id="aiOutput"></div>
+      </div>
+
+      <!-- Progress -->
+      <div class="panel">
+        <h3>📊 System Stats</h3>
+        <div class="bar"><span id="progress"></span></div>
+        <p id="statsText">0%</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    🚀 Open Innovation Project | AI-powered Student Productivity System
+  </footer>
+
+</div>
+
+<script src="abc.js"></script>
+<script src="server.js"></script>
+</body>
+</html>
