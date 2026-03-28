@@ -4,12 +4,18 @@ let currentCourse = '';
 // Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
-    
+
     // Dark mode persistence
     if (localStorage.getItem('darkMode') === 'true') {
         document.body.classList.add('dark');
     }
-    
+
+    // set dark mode icon
+    const themeIcon = document.getElementById('themeIcon');
+    if (themeIcon) {
+        themeIcon.setAttribute('data-lucide', document.body.classList.contains('dark') ? 'sun' : 'moon');
+    }
+
     loadDashboard();
 });
 
@@ -31,9 +37,15 @@ function showPage(pageId) {
     }
 
     switch (pageId) {
-        case 'dashboard': loadDashboard(); break;
-        case 'courses': loadCourses(); break;
-        case 'progress': loadProgress(); break;
+        case 'dashboard':
+            loadDashboard();
+            break;
+        case 'courses':
+            loadCourses();
+            break;
+        case 'progress':
+            loadProgress();
+            break;
     }
 }
 
@@ -42,7 +54,7 @@ function toggleDarkMode() {
     document.body.classList.toggle('dark');
     const isDark = document.body.classList.contains('dark');
     localStorage.setItem('darkMode', isDark);
-    
+
     const themeIcon = document.getElementById('themeIcon');
     if (themeIcon) {
         themeIcon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
@@ -82,7 +94,9 @@ async function loadCourses() {
 
         const container = document.getElementById('coursesList');
         if (container) {
-            container.innerHTML = courses.map(course => `
+            container.innerHTML = courses.map(course => {
+                const safeName = course.name.replace(/'/g, "\\'");
+                return `
                 <div class="course-detailed-card theme-purple">
                     <div class="card-visible-content">
                         <h3>${course.name}</h3>
@@ -92,10 +106,12 @@ async function loadCourses() {
                         <div class="prog-bar">
                             <span class="prog-fill" style="width: 45%;"></span>
                         </div>
-                        <button class="btn-lime-small" onclick="openVideoModal('${course.name.replace(/'/g, "\\'")}')">Continue</button>
+                        <button class="btn-lime-small" onclick="openVideoModal('${safeName}')">
+                            Continue
+                        </button>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
     } catch (error) {
         console.error('Courses load failed:', error);
@@ -110,13 +126,14 @@ async function loadProgress() {
 
         const container = document.getElementById('progressContent');
         if (container) {
-            container.innerHTML = achievements.map((item, index) => `
+            container.innerHTML = achievements.map((item, index) => {
+                return `
                 <div class="stat-widget staggered-${index + 1}">
                     <i data-lucide="award" class="widget-icon"></i>
                     <strong>${item.type}</strong>
                     <p>${item.content}</p>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
             lucide.createIcons();
         }
     } catch (error) {
@@ -124,7 +141,7 @@ async function loadProgress() {
     }
 }
 
-// --- VIDEO MODAL (🔥 FULLY BACKEND CONNECTED 🔥) ---
+// --- VIDEO MODAL (just logic, see CSS below) ---
 function openVideoModal(courseName) {
     currentCourse = courseName;
     document.getElementById('modalTitle').textContent = courseName;
@@ -138,74 +155,91 @@ function closeVideoModal() {
     document.getElementById('lecturesList').innerHTML = '';
 }
 
-// 🔥 FIXED: Backend-connected course loader
+// 🔥 Backend-connected course loader
 async function loadCoursePlaylist(courseName) {
     try {
         const [videoRes, modulesRes] = await Promise.all([
             fetch(`${BASE_URL}/course/${encodeURIComponent(courseName)}`),
             fetch(`${BASE_URL}/course/${encodeURIComponent(courseName)}/modules`)
         ]);
-        
+
         const videoData = await videoRes.json();
         const modulesData = await modulesRes.json();
 
         // Load video
         document.getElementById('videoPlayer').src = videoData.video_url;
 
-        // Load playlist with backend data
+        // Load playlist
         const lecturesList = document.getElementById('lecturesList');
-        lecturesList.innerHTML = modulesData.map(module => `
-            <li class="ripple ${module.completed ? 'watched' : ''}" 
-                onclick="markAsWatched(this)" 
+        lecturesList.innerHTML = modulesData.map(module => {
+            return `
+            <li class="ripple ${module.completed ? 'watched' : ''}"
+                onclick="markAsWatched(this)"
                 data-module="${module.name}">
                 <i data-lucide="${module.completed ? 'check-circle' : 'play-circle'}" class="mod-icon"></i>
                 <span>${module.name}</span>
-            </li>
-        `).join('');
-        
+            </li>`;
+        }).join('');
         lucide.createIcons();
         document.getElementById('moduleCount').textContent = `${modulesData.length} Videos`;
-        
         updateCourseProgress();
     } catch (error) {
         console.error('Course load failed:', error);
-        // Fallback mock data
+        // Fallback to mock data
         loadCoursePlaylistFallback(courseName);
     }
 }
 
-// Fallback for offline/demo mode
+// Fallback for offline/demo
 function loadCoursePlaylistFallback(courseName) {
     const fallbackData = {
-        'UX Design Fundamentals': { video_url: 'https://www.youtube.com/embed/1j_ziLiYY2A', modules: ['UX Research', 'Wireframing', 'Prototyping'] },
-        'Python Mastery': { video_url: 'https://www.youtube.com/embed/YYXdXT2l-Gg', modules: ['Basics', 'Data Structures', 'OOP'] }
+        'UX Design Fundamentals': {
+            video_url: 'https://www.youtube.com/embed/1j_ziLiYY2A',
+            modules: [
+                { name: 'UX Research', completed: false },
+                { name: 'Wireframing', completed: false },
+                { name: 'Prototyping', completed: false }
+            ]
+        },
+        'Python Mastery': {
+            video_url: 'https://www.youtube.com/embed/YYXdXT2l-Gg',
+            modules: [
+                { name: 'Basics', completed: false },
+                { name: 'Data Structures', completed: false },
+                { name: 'OOP', completed: false }
+            ]
+        }
     };
-    
+
     const data = fallbackData[courseName] || fallbackData['UX Design Fundamentals'];
     document.getElementById('videoPlayer').src = data.video_url;
-    
+
     const lecturesList = document.getElementById('lecturesList');
-    lecturesList.innerHTML = data.modules.map(module => `
-        <li class="ripple" onclick="markAsWatched(this)" data-module="${module}">
-            <i data-lucide="play-circle" class="mod-icon"></i>
-            <span>${module}</span>
-        </li>
-    `).join('');
+    lecturesList.innerHTML = data.modules.map(module => {
+        return `
+        <li class="ripple ${module.completed ? 'watched' : ''}"
+            onclick="markAsWatched(this)"
+            data-module="${module.name}">
+            <i data-lucide="${module.completed ? 'check-circle' : 'play-circle'}" class="mod-icon"></i>
+            <span>${module.name}</span>
+        </li>`;
+    }).join('');
     lucide.createIcons();
     document.getElementById('moduleCount').textContent = `${data.modules.length} Videos`;
+    updateCourseProgress();
 }
 
 // --- PLAYLIST INTERACTIONS (Backend POST) ---
 async function markAsWatched(element) {
     const wasWatched = element.classList.contains('watched');
     const moduleName = element.dataset.module;
-    
-    if (!wasWatched) {  // Only send if newly completed
+
+    if (!wasWatched) {
         element.classList.add('watched');
         const icon = element.querySelector('.mod-icon');
         icon.setAttribute('data-lucide', 'check-circle');
         lucide.createIcons();
-        
+
         try {
             const res = await fetch(`${BASE_URL}/complete-module`, {
                 method: 'POST',
@@ -217,12 +251,11 @@ async function markAsWatched(element) {
             });
             const data = await res.json();
             console.log('✅ Module completed! +50pts:', data.points);
-            updateCourseProgress();
         } catch (error) {
             console.error('Module completion failed:', error);
         }
     }
-    
+
     updateCourseProgress();
 }
 
@@ -236,7 +269,6 @@ function updateCourseProgress() {
 function filterPlaylists() {
     const input = document.getElementById('playlistSearchInput')?.value.toLowerCase() || '';
     const items = document.querySelectorAll('#lecturesList li');
-    
     items.forEach(item => {
         const text = item.textContent.toLowerCase();
         item.style.display = text.includes(input) ? 'flex' : 'none';
@@ -277,7 +309,7 @@ async function completeCourse() {
         closeVideoModal();
         document.getElementById('currentCourseTitle').textContent = `Certification: ${currentCourse}`;
         showPage('certView');
-        loadDashboard();  // Refresh points
+        loadDashboard();
     } catch (error) {
         console.error('Course completion failed:', error);
         alert('Course completed! +500 bonus points 🎉');
