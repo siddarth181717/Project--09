@@ -1,158 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edu Dashboard</title>
-  <link rel="stylesheet" href="app.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-
-  <!-- Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Charts -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLeap Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
 
 <div class="container">
+    <aside class="sidebar">
+        <div class="logo">
+            <i data-lucide="leaf" style="color: #b6ff40;"></i> EduLeap
+        </div>
+        <ul>
+            <li class="active" onclick="showPage('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</li>
+            <li onclick="showPage('trends')"><i data-lucide="line-chart"></i> Trends</li>
+            <li onclick="showPage('courses')">
+                <i data-lucide="users" class="course-icon"></i>
+                <span>Courses</span>
+<span class="badge">4</span>
+            </li>
+            <li onclick="showPage('progress')"><i data-lucide="folder"></i> States</li>
+            <li onclick="showPage('settings')"><i data-lucide="settings"></i> Settings</li>
+        </ul>
+        <div class="sidebar-bottom">
+            <ul>
+                <li onclick="logout()"><i data-lucide="log-out"></i> Logout</li>
+            </ul>
+        </div>
+    </aside>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>EduLeap</h2>
-    <ul>
-      <li onclick="showPage('dashboard')">🏠 Dashboard</li>
-      <li onclick="showPage('courses')">📚 Courses</li>
-      <li onclick="showPage('progress')">📈 Progress</li>
-      <li onclick="showPage('settings')">⚙️ Settings</li>
-    </ul>
-  </aside>
+    <main>
+        <div class="topbar">
+            <div class="search-box">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="top-actions">
+                <i data-lucide="shield-check"></i>
+                <div class="icon" onclick="toggleNotif()">
+                    <i data-lucide="bell"></i>
+                    <span class="dot"></span>
+                </div>
+                <div class="icon" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+                    <i data-lucide="moon"></i>
+                </div>
+                <div class="profile-group" onclick="toggleProfile()">
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" class="avatar" alt="Profile Avatar">
 
-  <!-- MAIN -->
-  <main>
+                    <i data-lucide="chevron-down"></i>
+                </div>
+                <div id="profileDropdown" class="profile-dropdown">
+                    <div class="profile-item">
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" class="avatar-small" alt="Profile Avatar Small">
 
-    <!-- NAVBAR -->
-    <div class="topbar">
+                        <div>
+                            <strong id="profileName">Alex Dev</strong>
+                            <small id="profileEmail">alex@eduleap.com</small>
+                        </div>
+                    </div>
+                    <div class="profile-item" onclick="showPage('settings')">
+                        <i data-lucide="settings"></i>
+                        <span>Settings</span>
+                    </div>
+                    <div class="profile-item" onclick="logout()">
+                        <i data-lucide="log-out"></i>
+                        <span>Logout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      <input type="text" placeholder="Search...">
+        <div id="dashboard" class="page">
+            <div class="hero-card">
+                <div class="hero-text">
+                    <h1 id="welcome">Personalized learning educational platform</h1>
+an innovative educational platform!
+                    <div class="hero-btns">
+                        <button class="btn-lime">Learning plan</button>
+                        <button class="btn-glass">Learn more</button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="book-stack">
+                        <div class="book blue"></div>
+                        <div class="book purple"></div>
+                        <div class="grad-cap">🎓</div>
+                    </div>
+                </div>
+            </div>
 
-      <div class="top-actions">
+            <div class="main-grid">
+                <div class="glass-card left-panel">
+                    <div class="card-header">
+                        <h3>Top Courses</h3>
+                        <span class="see-all">See all</span>
+                    </div>
+                    
+                    <div class="courses-row">
+                        <div class="course-mini-card purple-grad">
+                                <div class="course-info">
+                                    <div class="course-avatar">
+                                        <img src="https://i.pravatar.cc/40?img=1" alt="Student 1">
+                                    </div>
+                                    <strong>UX Design Fundamentals: 70%</strong>
+                                    <div class="prog-bar"><span class="prog-fill prog-70"></span></div>
+                                </div>
+                        </div>
+
+<div class="course-mini-card blue-grad">
+    <div class="course-info">
+        <div class="course-avatar">
+            <img src="https://i.pravatar.cc/40?img=2" alt="Student 2">
+        </div>
+        <strong>Mastering Python: 85%</strong>
+        <div class="prog-bar"><span class="prog-fill prog-85"></span></div>
+    </div>
+
+                        </div>
+                    </div>
+
+                    <div class="courses-row" id="dynamicCourses">
+                        <div class="course-mini-card default-grad">
+                            <p id="points">Points: 0</p>
+                            <small>Learn more about your progress here.</small>
+                            <button class="btn-lime-small">Learn more</button>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="right-panel">
+                    <div class="glass-card stats-card">
+                        <div class="card-header">
+                            <h3>Quick Stats</h3>
+                            <i data-lucide="more-horizontal"></i>
+                        </div>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <h2>2</h2>
+                                <p>Hours</p>
+                            </div>
+                            <div class="stat-item">
+                                <h2>10</h2>
+                                <p>Hours</p>
+                            </div>
+                        </div>
+                        <button class="btn-lime-full">Learn now</button>
+                    </div>
+
+                    <div class="glass-card stats-card-mini">
+                         <div class="card-header"><h3>Quick Stats</h3></div>
+                         <div class="stat-line">
+                            <div class="stat-icon-bg blue"><i data-lucide="calendar"></i></div>
+                            <div>
+                                <small>Weekly</small>
+                                <h3>40%</h3>
+                            </div>
+                         </div>
+                         <div class="stat-line">
+                            <div class="stat-icon-bg purple"><i data-lucide="users"></i></div>
+                            <div>
+                                <small>Adventures</small>
+                                <h3>127</h3>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="courses" class="page" style="display:none;">
+            <h2>Courses</h2>
+            <div id="coursesList" class="main-grid"></div>
+        </div>
         
-        <!-- Notification -->
-        <div class="icon" onclick="toggleNotif()">
-          <i data-lucide="bell"></i>
-          <span class="dot"></span>
+        <div id="progress" class="page" style="display:none;">
+<h2>Your Progress</h2>
+            <div id="progressContent"></div>
         </div>
-
-        <!-- Dark Mode -->
-        <div class="icon" onclick="toggleDark()">
-          <i data-lucide="moon"></i>
-        </div>
-
-        <!-- Profile -->
-        <div class="profile" onclick="toggleProfile()">
-          👤
-          <div class="dropdown" id="profileMenu">
-            <p>Profile</p>
-            <p>Settings</p>
-            <p>Logout</p>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- HERO CARD -->
-    <div id="dashboard" class="page">
-      <p id="welcome"></p>
-      
-      <div class="hero-card">
-        <div>
-          <h2>Personalized learning platform</h2>
-          <p>Learn smarter with modern tools</p>
-          <button>Learning Plan</button>
-        </div>
-      </div>
-
-      <!-- CARDS -->
-      <div class="grid">
-
-        <div class="card">
-          <h3>Mastering Python</h3>
-          <div class="circle">85%</div>
-        </div>
-
-        <div class="card">
-          <h3>UX Design</h3>
-          <p>70%</p>
-          <div class="bar"><span style="width:70%"></span></div>
-        </div>
-
-        <div class="card">
-          <h3>Quick Stats</h3>
-          <p>Hours: 10</p>
-          <p>Projects: 2</p>
-        </div>
-
-        <div class="card">
-          <h3>Certification</h3>
-          <p>First Certificate Earned 🎉</p>
-          <button onclick="generateCertificate()">Download Certificate</button>
-        </div>
-
-        <div class="card chart-card">
-          <h3>Learning Progress</h3>
-          <canvas id="myChart"></canvas>
-        </div>
-
-      </div>
-
-      <div class="card notif-panel" id="notifPanel">
-        <h3>Notifications</h3>
-        <p>✅ Course Completed</p>
-        <p>📚 New Lesson Available</p>
-      </div>
-    </div>
-
-    <div id="courses" class="page" style="display:none;">
-      <h2>Courses</h2>
-
-      <div class="course-card">
-        <h3>Python</h3>
-        <button onclick="completeCourse('Python')">Complete</button>
-      </div>
-
-      <div class="course-card">
-        <h3>Web Development</h3>
-        <button onclick="completeCourse('Web')">Complete</button>
-      </div>
-
-      <div class="course-card">
-        <h3>UI/UX Design</h3>
-        <button onclick="completeCourse('UI')">Complete</button>
-      </div>
-    </div>
-
-    <div id="progress" class="page" style="display:none;">
-      <h2>Your Progress</h2>
-      <p id="progressText">0 Courses Completed</p>
-    </div>
-
-    <div id="settings" class="page" style="display:none;">
-      <h2>Settings</h2>
-
-      <input id="newName" placeholder="Change name">
-      <button onclick="saveSettings()">Save</button>
-
-      <button onclick="logout()">Logout</button>
-    </div>
-
-  </main>
-
+    </main>
 </div>
-<script src="app.js"></script>
 
+<div id="videoModal" class="modal">
+    <div class="modal-overlay" onclick="closeVideoModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalTitle">Course Videos</h3>
+                <i data-lucide="x" onclick="closeVideoModal()" class="close-btn"></i>
+            </div>
+            <div class="video-container">
+                <iframe id="videoPlayer" title="Course Playlist Videos" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="lectures-section">
+                <h4>Lectures</h4>
+                <ul id="lecturesList"></ul>
+            </div>
+            <button id="completeBtn" class="btn-lime" onclick="completeCourse()">Complete Course</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
