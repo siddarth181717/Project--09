@@ -3,165 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduLeap | Dashboard</title>
+    <title>EduLeap | Professional LMS Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="app.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="dark"> <!-- Added default dark mode -->
 
 <div class="container">
     <aside class="sidebar">
-        <div class="logo">
-            <i data-lucide="leaf" style="color: #b6ff40;"></i> EduLeap
-        </div>
+        <div class="logo"><i data-lucide="leaf"></i> EduLeap</div>
         <ul>
-            <li class="nav-item active" id="nav-dashboard" onclick="showPage('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</li>
-            <li class="nav-item" id="nav-trends" onclick="showPage('trends')"><i data-lucide="line-chart"></i> Trends</li>
-            <li class="nav-item" id="nav-courses" onclick="showPage('courses')">
-                <i data-lucide="users"></i>
-                <span>Courses</span>
-                <span class="badge">4</span>
+            <li class="nav-item active" id="nav-dashboard" onclick="showPage('dashboard')">
+                <i data-lucide="layout-dashboard"></i> Dashboard
             </li>
-            <li class="nav-item" id="nav-progress" onclick="showPage('progress')"><i data-lucide="folder"></i> Stats</li>
-            <li class="nav-item" id="nav-settings" onclick="showPage('settings')"><i data-lucide="settings"></i> Settings</li>
+            <li class="nav-item" id="nav-trends" onclick="showPage('trends')">
+                <i data-lucide="line-chart"></i> Trends
+            </li>
+            <li class="nav-item" id="nav-courses" onclick="showPage('courses')">
+                <i data-lucide="users"></i> Courses 
+                <span class="badge">8</span>
+            </li>
+            <li class="nav-item" id="nav-progress" onclick="showPage('progress')">
+                <i data-lucide="folder"></i> Stats
+            </li>
+            <li class="nav-item" id="nav-settings" onclick="showPage('settings')">
+                <i data-lucide="settings"></i> Settings
+            </li>
         </ul>
         <div class="sidebar-bottom">
-            <ul><li onclick="logout()"><i data-lucide="log-out"></i> Logout</li></ul>
+            <ul>
+                <li onclick="logout()">
+                    <i data-lucide="log-out"></i> Logout
+                </li>
+            </ul>
         </div>
     </aside>
 
-    <main>
+    <main class="main"> <!-- Added missing 'main' class -->
         <div class="topbar">
             <div class="search-box">
                 <i data-lucide="search"></i>
-                <input type="text" placeholder="Search courses...">
+                <input type="text" placeholder="Search for courses or topics...">
             </div>
             <div class="top-actions">
-                <i data-lucide="shield-check" class="icon-btn"></i>
-                <div class="icon-btn ripple" onclick="toggleNotif()"><i data-lucide="bell"></i><span class="dot"></span></div>
-                <div class="icon-btn ripple" onclick="toggleDarkMode()"><i data-lucide="moon" id="themeIcon"></i></div>
+                <div class="icon-btn ripple" onclick="toggleDarkMode()">
+                    <i data-lucide="moon" id="themeIcon"></i>
+                </div>
                 <div class="profile-group" onclick="toggleProfile()">
-                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" class="avatar" alt="User">
+                    <img src="https://i.pravatar.cc/150?u=alexdev" class="avatar" alt="User">
                     <i data-lucide="chevron-down"></i>
                 </div>
                 <div id="profileDropdown" class="profile-dropdown">
                     <div class="profile-item"><strong id="profileName">Alex Dev</strong></div>
-                    <div class="profile-item" onclick="showPage('settings')">Settings</div>
                     <div class="profile-item" onclick="logout()">Logout</div>
                 </div>
             </div>
         </div>
 
+        <!-- DASHBOARD PAGE -->
         <div id="dashboard" class="page active">
             <div class="hero-card">
                 <div class="hero-text">
                     <h1 id="welcome">Welcome back, Alex!</h1>
-                    <p>Continue your personalized learning journey.</p>
+                    <p>Track your progress, watch playlists, and earn certifications.</p>
                     <div class="hero-btns">
-                        <button class="btn-lime">Learning plan</button>
+                        <button class="btn-lime" onclick="showPage('courses')">Browse All Courses</button>
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <div class="book-stack">
-                        <div class="book blue"></div>
-                        <div class="book purple"></div>
-                        <div class="grad-cap">🎓</div>
-                    </div>
+                    <div class="book blue"></div>
+                    <div class="book purple"></div>
+                    <span class="grad-cap">🎓</span>
                 </div>
             </div>
 
             <div class="main-grid">
-                <div class="glass-card left-panel">
+                <div class="glass-card">
                     <div class="card-header">
                         <h3>Top Courses</h3>
-                        <span class="see-all" onclick="showPage('courses')">See all</span>
+                        <a href="#" class="see-all">See all</a>
                     </div>
                     <div class="courses-grid-layout">
-                        <div class="course-mini-card purple-grad">
-                            <div class="course-badge"><img src="https://i.pravatar.cc/40?img=1"></div>
+                        <div class="course-mini-card theme-purple">
+                            <div class="course-avatar">
+                                <img src="https://i.pravatar.cc/40?img=1" alt="Instructor">
+                            </div>
                             <div class="course-info">
-                                <strong>UX Design: 70%</strong>
-                                <div class="prog-bar"><span class="prog-fill" style="width: 70%;"></span></div>
+                                <strong>UX Design Fundamentals</strong>
+                                <div class="prog-bar">
+                                    <span class="prog-fill" style="width: 70%;"></span>
+                                </div>
                                 <div class="course-details">
-                                    <p>Instructor: Sarah J. | Beginner</p>
-                                    <button class="btn-lime-small" onclick="openVideoModal('UX Design')">Continue</button>
+                                    <p>Learn Google's UX Framework from basics to advanced</p>
+                                    <button class="btn-lime-small" onclick="openVideoModal('UX Design Fundamentals')">
+                                        Continue
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="course-mini-card blue-grad">
-                            <div class="course-badge"><img src="https://i.pravatar.cc/40?img=2"></div>
+                        <div class="course-mini-card theme-blue">
+                            <div class="course-avatar">
+                                <img src="https://i.pravatar.cc/40?img=2" alt="Instructor">
+                            </div>
                             <div class="course-info">
-                                <strong>Python: 85%</strong>
-                                <div class="prog-bar"><span class="prog-fill" style="width: 85%;"></span></div>
+                                <strong>Python Mastery</strong>
+                                <div class="prog-bar">
+                                    <span class="prog-fill" style="width: 85%;"></span>
+                                </div>
                                 <div class="course-details">
-                                    <p>Instructor: Mark K. | Intermediate</p>
-                                    <button class="btn-lime-small" onclick="openVideoModal('Python')">Continue</button>
+                                    <p>Master Python with Corey Schafer's complete course</p>
+                                    <button class="btn-lime-small" onclick="openVideoModal('Python Mastery')">
+                                        Continue
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="right-panel">
-                    <div class="glass-card stats-card">
+                <div class="glass-card">
+                    <div class="card-header">
                         <h3>Quick Stats</h3>
-                        <div class="stats-row">
-                            <div class="stat-item"><h2 id="hrs-today">0</h2><p>Hours Today</p></div>
-                            <div class="stat-item"><h2 id="hrs-week">0</h2><p>Hours Week</p></div>
+                        <a href="#" class="see-all">View All</a>
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <h2>8</h2>
+                            <p>Hrs Today</p>
                         </div>
-                        <button class="btn-lime-full" onclick="showPage('trends')">Explore Trends</button>
+                        <div class="stat-item">
+                            <h2>42</h2>
+                            <p>Hrs Week</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- COURSES PAGE -->
         <div id="courses" class="page">
-            <h2>Enrolled Courses</h2>
-            <div id="coursesList" class="courses-detailed-layout"></div>
+            <div class="glass-card">
+                <div class="card-header">
+                    <h3>Your Enrolled Playlists</h3>
+                    <a href="#" class="see-all">Browse More</a>
+                </div>
+                <div id="coursesList" class="courses-detailed-layout">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
         </div>
 
+        <!-- PROGRESS PAGE -->
         <div id="progress" class="page">
-            <h2>Learning Statistics</h2>
-            <div id="progressContent" class="stats-grid-layout"></div>
+            <div class="glass-card">
+                <div class="card-header">
+                    <h3>Learning Achievements</h3>
+                    <a href="#" class="see-all">View History</a>
+                </div>
+                <div id="progressContent" class="stats-grid-layout">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
         </div>
 
+        <!-- CERT VIEW PAGE -->
         <div id="certView" class="page">
-            <button class="btn-glass" style="margin-bottom:20px" onclick="showPage('dashboard')">← Back</button>
-            <h2 id="currentCourseTitle">Course Certification</h2>
-            <div class="glass-card checklist-card">
-                <h3>Complete all topics to unlock Certificate</h3>
+            <button class="btn-glass" onclick="showPage('dashboard')" style="margin-bottom: 2rem;">
+                ← Back to Dashboard
+            </button>
+            <div class="glass-card">
+                <h3 id="currentCourseTitle">Certification Checklist</h3>
                 <ul class="checklist">
-                    <li><input type="checkbox" class="topic-check" onchange="checkComplete()"> Core Fundamentals</li>
-                    <li><input type="checkbox" class="topic-check" onchange="checkComplete()"> Advanced Module 1</li>
-                    <li><input type="checkbox" class="topic-check" onchange="checkComplete()"> Final Assessment</li>
+<li>
+                        <label>
+                            <input type="checkbox" class="topic-check" onchange="checkComplete()">
+                            Finished Video Playlist
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" class="topic-check" onchange="checkComplete()">
+                            Practical Assignments
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" class="topic-check" onchange="checkComplete()">
+                            Peer Review Session
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" class="topic-check" onchange="checkComplete()">
+                            Final Project Submission
+                        </label>
+                    </li>
                 </ul>
-                <div id="certDownloadArea" style="display:none; margin-top:20px;">
-                    <div class="success-msg">🎉 Course Completed!</div>
-                    <button class="btn-lime" onclick="alert('Downloading Certificate...')">Download Certificate</button>
+                <div id="certDownloadArea" style="display:none; text-align:center; margin-top:20px;">
+                    <div class="success-msg">🎉 Certification Unlocked!</div>
+                    <button class="btn-lime" onclick="alert('Downloading your certificate...')">
+                        Download Certificate
+                    </button>
                 </div>
             </div>
         </div>
     </main>
 </div>
 
+<!-- VIDEO MODAL -->
 <div id="videoModal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content extended">
         <div class="modal-header">
-            <h3 id="modalTitle">Course Video</h3>
-            <i data-lucide="x" onclick="closeVideoModal()" style="cursor:pointer"></i>
+            <h3 id="modalTitle">Course Player</h3>
+            <i data-lucide="x" class="close-btn" onclick="closeVideoModal()"></i>
         </div>
-        <div class="video-container">
-            <iframe id="videoPlayer" width="100%" height="350" frameborder="0" allowfullscreen></iframe>
+
+        <div class="video-layout-wrapper">
+            <div class="video-main">
+                <div class="video-container">
+                    <iframe id="videoPlayer" src="" title="Course Video Player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="playlist-sidebar">
+                <div class="card-header">
+                    <h4>Playlist Modules</h4>
+                    <span class="badge" id="moduleCount">0 Videos</span>
+                </div>
+                
+                <div class="search-box" style="margin-bottom: 1rem;">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="playlistSearchInput" placeholder="Filter topics..." onkeyup="filterPlaylists()">
+                </div>
+
+                <ul id="lecturesList" class="lectures-section"></ul>
+            </div>
         </div>
-        <div class="lectures-section">
-            <h4>Lectures</h4>
-            <ul id="lecturesList"></ul>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <button id="completeBtn" class="btn-lime" onclick="completeCourse()">
+                FINISH & GET CERTIFIED
+            </button>
         </div>
-        <button id="completeBtn" class="btn-lime" style="width:100%" onclick="completeCourse()">Get Certified</button>
     </div>
 </div>
 
 <script src="app.js"></script>
+<script>
+    // Initialize Lucide icons on load
+    lucide.createIcons();
+</script>
 </body>
 </html>

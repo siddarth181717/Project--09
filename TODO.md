@@ -1,26 +1,35 @@
-# Connect Backend to Frontend & Fix All Errors/Completeness
+# Connect Backend to Frontend & Fix Workspace Issues
 
-✅ **Step 1**: Create this TODO.md  
-✅ **Step 2**: Update frontend/index.html (fix typos, add profile dropdown & full video modal markup)
-✅ **Step 3**: Rewrite frontend/app.js (full JS: nav, API fetches/populate all sections, profile/video modals, YouTube embeds, complete-course)
-✅ **Step 4**: Update frontend/app.css (add modal/profile/video styles)
-✅ **Step 5**: Initial completion
+## Approved Plan Steps:
 
-## Feedback Fixes (Dashboard Progress, Dark Mode, Icon Hovers)
-**⏳ Step 6**: backend/app.py - Add /api/stats endpoint (dynamic hours/progress from user_data)
-**⏳ Step 7**: frontend/index.html - Add dark mode toggle btn top-right
-✅ **Step 8**: frontend/app.js - Full dashboard load (stats/user/dynamic), toggleDarkMode, smooth complete refresh
-✅ **Step 9**: frontend/app.css - Dark mode + icons hover below
-✅ **Step 10**: All done - linter fixes, final tweaks.
+### 1. **Update frontend/app.js** (Replace mocks with API fetches)
+   - loadDashboard(): fetch user/stats
+   - loadCourses(): fetch courses
+   - loadProgress(): fetch others/achievements  
+   - loadCoursePlaylist(): fetch course video + modules (with completed status)
+   - markAsWatched(): POST complete-module
+   - completeCourse(): POST complete-course
+   - Add error handling/loading
 
-**FINAL STATUS v2: Profile dropdown upper-right, all icons hover glow/scale/color-change on mouseover (sidebar/topbar/dark/notif/stats/logo)!**
+### 2. **Fix accessibility - frontend/index.html**
+   - Add placeholder/aria-label to search input
+   - Wrap cert checkboxes in proper <label>
+   - Add title attribute to video iframe
 
-Dashboard now shows **real backend-connected progress**:
-- Stats (hours today/week, weekly %, adventures) dynamic from /api/stats (updates on complete-course).
-- Top courses UX/Python progress bars dynamic from stats.course_progress %.
-- Dark mode toggle top-right (persists localStorage, darker gradients/glass).
-- Icons hover scale/glow (sidebar/topbar/logo/stats).
-- Icons fully visible (lucide loaded).
+### 3. **Fix CSS Safari support - frontend/app.css**
+   - Add `-webkit-backdrop-filter` prefixes
 
-Restart backend `cd backend && python app.py`, refresh index.html → Perfect!
+### 4. **Backend setup & deps**
+   - `pip install -r requirements.txt` (if needed)
+   - Start server: `cd backend && python app.py`
+
+### 5. **Testing & Verification**
+   - Refresh frontend → real data loads from API
+   - Test modal: load course modules, mark watched → points update
+   - Complete course → bonus points
+   - Check browser console, db updates
+
+**Progress: 2/5 complete - app.js full API ✅ + Accessibility fixed ✅**
+
+**Next step: Fix CSS Safari backdrop-filter**
 
