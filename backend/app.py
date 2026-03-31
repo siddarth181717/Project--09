@@ -1,159 +1,154 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+import flask_cors
 import sqlite3
-import os
-from datetime import datetime
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000", "http://127.0.0.1", "*"])  # Fixed CORS
+flask_cors.CORS(app)
 
 DB_PATH = 'eduleap.db'
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    
-    # Tables (unchanged)
+
+    # Tables
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY, name TEXT NOT NULL, email TEXT UNIQUE, points INTEGER DEFAULT 0
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE,
+            points INTEGER DEFAULT 0
         )
     ''')
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS courses (
-            id INTEGER PRIMARY KEY, name TEXT NOT NULL, description TEXT, video_url TEXT, instructor TEXT
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            description TEXT,
+            video_url TEXT,
+            instructor TEXT
         )
     ''')
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS modules (
-            id INTEGER PRIMARY KEY, course_id INTEGER, name TEXT, completed BOOLEAN DEFAULT 0,
+            id INTEGER PRIMARY KEY,
+            course_id INTEGER,
+            name TEXT,
+            completed BOOLEAN DEFAULT 0,
             FOREIGN KEY (course_id) REFERENCES courses (id)
         )
     ''')
-    
-    # Demo User
-    cursor.execute("INSERT OR IGNORE INTO users (id, name, email, points) VALUES (1, 'Alex Dev', 'alex@eduleap.com', 2450)")
-    
-    # 🔥 15+ COMPLETE COURSES WITH MODULES 🔥
-    demo_courses = [
-        # Existing courses
-        (1, "UX Design Fundamentals", "Learn Google's UX Framework from basics", "https://www.youtube.com/embed/1j_ziLiYY2A", "Sarah Johnson"),
-        (2, "Python Mastery", "Master Python with real projects", "https://www.youtube.com/embed/YYXdXT2l-Gg", "Mike Chen"),
-        (3, "Advanced JavaScript", "ES6+ features & modern patterns", "https://www.youtube.com/embed/PkZNo7MFNFg", "Emma Davis"),
-        
-        # 🔥 NEW COURSES 🔥
-        (4, "React Complete Guide", "Hooks, Router, Context, Redux", "https://www.youtube.com/embed/bMknfKXIFA8", "Maximilian Schwarzmüller"),
-        (5, "Node.js & Express", "Build REST APIs from scratch", "https://www.youtube.com/embed/watch?v=3rZJ9pfGUPU", "Traversy Media"),
-        (6, "Data Science Python", "Pandas, NumPy, Matplotlib, ML", "https://www.youtube.com/embed/_P7jjhkLlc8", "freeCodeCamp"),
-        (7, "Docker & Kubernetes", "Containerize & deploy apps", "https://www.youtube.com/embed/3c-iBn73dDE", "TechWorld with Nana"),
-        (8, "MongoDB NoSQL", "Build modern apps with MongoDB", "https://www.youtube.com/embed/ExcQGXgT74I", "Traversy Media"),
-        (9, "SQL & PostgreSQL", "Database design & advanced queries", "https://www.youtube.com/embed/HXV3zeQKqGY", "freeCodeCamp"),
-        (10, "Machine Learning", "Scikit-learn, TensorFlow basics", "https://www.youtube.com/embed/0Lt9w-BbY7k", "Sentdex"),
-        (11, "AWS Cloud Practitioner", "Cloud fundamentals & services", "https://www.youtube.com/embed/k2uXnJKb9SA", "freeCodeCamp"),
-        (12, "Git & GitHub Pro", "Version control mastery", "https://www.youtube.com/embed/RGOj5yH7evk", "Traversy Media"),
-        (13, "TypeScript Advanced", "Build scalable JS apps", "https://www.youtube.com/embed/Rab9hVNOsj8", "Matt Pocock"),
-        (14, "Next.js 14 Fullstack", "App Router, Server Actions", "https://www.youtube.com/embed/pkAv8TTWQvM", "Code with Antonio"),
-        (15, "Cybersecurity Basics", "Ethical hacking fundamentals", "https://www.youtube.com/embed/XR6R6Zq9O0s", "NetworkChuck")
+
+    # Demo user
+    cursor.execute("""
+        INSERT OR IGNORE INTO users (id, name, email, points)
+        VALUES (1, 'Alex Dev', 'alex@eduleap.com', 2450)
+    """)
+
+    # 🔥 COURSES WITH WORKING VIDEOS 🔥
+    courses = [
+        (1, "UX Design Fundamentals", "Learn UX basics", "https://www.youtube.com/embed/3Yk6Jk8d0zE", "Google UX"),
+        (2, "Python Mastery", "Complete Python course", "https://www.youtube.com/embed/gfDE2a7MKjA", "CodeWithHarry"),
+        (3, "Advanced JavaScript", "Deep dive JS", "https://www.youtube.com/embed/ajdRvxDWH4w", "Apna College"),
+        (4, "React Complete Guide", "React full course", "https://www.youtube.com/embed/bMknfKXIFA8", "Apna College"),
+        (5, "Node.js & Express", "Backend dev", "https://www.youtube.com/embed/Oe421EPjeBE", "CodeWithHarry"),
+        (6, "Data Science Python", "Data science basics", "https://www.youtube.com/embed/r-uOLxNrNk8", "freeCodeCamp"),
+        (7, "Docker & Kubernetes", "DevOps tools", "https://www.youtube.com/embed/3c-iBn73dDE", "Nana"),
+        (8, "MongoDB NoSQL", "MongoDB guide", "https://www.youtube.com/embed/ofme2o29ngU", "CodeWithHarry"),
+        (9, "SQL & PostgreSQL", "SQL mastery", "https://www.youtube.com/embed/HXV3zeQKqGY", "freeCodeCamp"),
+        (10, "Machine Learning", "ML basics", "https://www.youtube.com/embed/ukzFI9rgwfU", "Krish Naik"),
+        (11, "AWS Cloud Practitioner", "Cloud basics", "https://www.youtube.com/embed/SOTamWNgDKc", "freeCodeCamp"),
+        (12, "Git & GitHub Pro", "Version control", "https://www.youtube.com/embed/apGV9Kg7ics", "CodeWithHarry"),
+        (13, "TypeScript Advanced", "TS course", "https://www.youtube.com/embed/30LWjhZzg50", "Academind"),
+        (14, "Next.js 14 Fullstack", "Next.js guide", "https://www.youtube.com/embed/ZVnjOPwW4ZA", "Codevolution"),
+        (15, "Cybersecurity Basics", "Security fundamentals", "https://www.youtube.com/embed/U_P23SqJaDc", "NetworkChuck")
     ]
-    cursor.executemany("INSERT OR IGNORE INTO courses VALUES (?, ?, ?, ?, ?)", demo_courses)
-    
-    # 🔥 MODULES FOR ALL COURSES 🔥
-    demo_modules = [
-        # Course 1: UX Design (3 modules)
-        (1, 1, "UX Research Methods"), (2, 1, "Wireframing Basics"), (3, 1, "Prototyping Tools"),
-        # Course 2: Python (3 modules)  
-        (4, 2, "Python Basics"), (5, 2, "Data Structures"), (6, 2, "OOP Concepts"),
-        # Course 3: JS (3 modules)
-        (7, 3, "ES6+ Syntax"), (8, 3, "Async/Await"), (9, 3, "Modules & Bundlers"),
-        # Course 4: React (5 modules)
-        (10, 4, "React Hooks"), (11, 4, "React Router"), (12, 4, "Context API"), (13, 4, "Redux Toolkit"), (14, 4, "React Query"),
-        # Course 5: Node.js (4 modules)
-        (15, 5, "Express Setup"), (16, 5, "Middleware"), (17, 5, "Authentication"), (18, 5, "Database Integration"),
-        # Course 6: Data Science (4 modules)
-        (19, 6, "Pandas Basics"), (20, 6, "NumPy Arrays"), (21, 6, "Data Viz"), (22, 6, "Scikit-learn"),
-        # Course 7: Docker (3 modules)
-        (23, 7, "Docker Basics"), (24, 7, "Docker Compose"), (25, 7, "Kubernetes Intro"),
-        # Course 8: MongoDB (3 modules)
-        (26, 8, "MongoDB Basics"), (27, 8, "Mongoose ODM"), (28, 8, "Schema Design"),
-        # Course 9: SQL (4 modules)
-        (29, 9, "SQL Basics"), (30, 9, "JOINs"), (31, 9, "Indexes"), (32, 9, "Advanced Queries"),
-        # Course 10: ML (3 modules)
-        (33, 10, "Linear Regression"), (34, 10, "Classification"), (35, 10, "Model Evaluation")
+
+    cursor.executemany("INSERT OR IGNORE INTO courses VALUES (?, ?, ?, ?, ?)", courses)
+
+    # Modules
+    modules = [
+        (1,1,"UX Research"),(2,1,"Wireframing"),(3,1,"Prototyping"),
+        (4,2,"Python Basics"),(5,2,"OOP"),(6,2,"Projects"),
+        (7,3,"ES6"),(8,3,"Async JS"),(9,3,"Modules"),
+        (10,4,"Hooks"),(11,4,"Router"),(12,4,"Redux"),
+        (13,5,"Express Setup"),(14,5,"Auth"),(15,5,"APIs"),
+        (16,6,"Pandas"),(17,6,"NumPy"),(18,6,"ML Basics")
     ]
-    cursor.executemany("INSERT OR IGNORE INTO modules (id, course_id, name) VALUES (?, ?, ?)", demo_modules)
-    
+
+    cursor.executemany("INSERT OR IGNORE INTO modules VALUES (?, ?, ?, 0)", modules)
+
     conn.commit()
     conn.close()
 
-# Routes (unchanged + fixed)
-@app.route('/api/user')
-def get_user():
-    conn = sqlite3.connect(DB_PATH); cursor = conn.cursor()
-    cursor.execute("SELECT name, points FROM users WHERE id = 1"); user = cursor.fetchone()
-    conn.close()
-    return jsonify({'name': user[0], 'points': user[1]})
-
-@app.route('/api/stats')
-def get_stats():
-    return jsonify({'hours_today': 8, 'hours_week': 42, 'courses_completed': 7, 'total_points': 2450})
+# ROUTES
 
 @app.route('/api/courses')
 def get_courses():
-    conn = sqlite3.connect(DB_PATH); cursor = conn.cursor()
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
     cursor.execute("SELECT name, description FROM courses")
-    courses = [{'name': row[0], 'desc': row[1]} for row in cursor.fetchall()]
+    data = [{'name': r[0], 'desc': r[1]} for r in cursor.fetchall()]
     conn.close()
-    return jsonify(courses)
+    return jsonify(data)
 
-@app.route('/api/course/<course_name>')
-def get_course(course_name):
-    conn = sqlite3.connect(DB_PATH); cursor = conn.cursor()
-    cursor.execute("SELECT video_url FROM courses WHERE name = ?", (course_name,))
-    result = cursor.fetchone()
+@app.route('/api/course/<name>')
+def get_course(name):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT video_url FROM courses WHERE name=?", (name,))
+    row = cursor.fetchone()
     conn.close()
-    return jsonify({'video_url': result[0] if result else 'https://www.youtube.com/embed/dQw4w9WgXcQ'})
+    return jsonify({'video_url': row[0] if row else ""})
 
-@app.route('/api/course/<course_name>/modules')
-def get_course_modules(course_name):
-    conn = sqlite3.connect(DB_PATH); cursor = conn.cursor()
+@app.route('/api/course/<name>/modules')
+def get_modules(name):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
     cursor.execute("""
-        SELECT m.name, m.completed FROM modules m 
-        JOIN courses c ON m.course_id = c.id WHERE c.name = ?
-    """, (course_name,))
-    modules = [{'name': row[0], 'completed': bool(row[1])} for row in cursor.fetchall()]
+        SELECT m.name, m.completed FROM modules m
+        JOIN courses c ON m.course_id = c.id
+        WHERE c.name=?
+    """, (name,))
+    data = [{'name': r[0], 'completed': bool(r[1])} for r in cursor.fetchall()]
     conn.close()
-    return jsonify(modules)
+    return jsonify(data)
 
 @app.route('/api/complete-module', methods=['POST'])
 def complete_module():
-    data = request.json; course_name = data.get('course_name'); module_name = data.get('module_name')
-    conn = sqlite3.connect(DB_PATH); cursor = conn.cursor()
-    cursor.execute("UPDATE modules SET completed = 1 WHERE name = ? AND course_id = (SELECT id FROM courses WHERE name = ?)", (module_name, course_name))
-    cursor.execute("UPDATE users SET points = points + 50 WHERE id = 1")
-    cursor.execute("SELECT points FROM users WHERE id = 1"); points = cursor.fetchone()[0]
-    conn.commit(); conn.close()
-    return jsonify({'points': points, 'message': 'Module completed! +50pts'})
+    data = request.json
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE modules SET completed=1
+        WHERE name=? AND course_id=(SELECT id FROM courses WHERE name=?)
+    """, (data['module_name'], data['course_name']))
+
+    cursor.execute("UPDATE users SET points = points + 50 WHERE id=1")
+    cursor.execute("SELECT points FROM users WHERE id=1")
+    points = cursor.fetchone()[0]
+
+    conn.commit()
+    conn.close()
+    return jsonify({'points': points})
 
 @app.route('/api/complete-course', methods=['POST'])
 def complete_course():
-    data = request.json; course_name = data.get('course_name')
-    conn = sqlite3.connect(DB_PATH); cursor = conn.cursor()
-    cursor.execute("UPDATE users SET points = points + 500 WHERE id = 1")
-    cursor.execute("SELECT points FROM users WHERE id = 1"); points = cursor.fetchone()[0]
-    conn.commit(); conn.close()
-    return jsonify({'points': points, 'message': f'{course_name} completed! +500pts 🎉'})
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
 
-@app.route('/api/others')
-def get_others():
-    return jsonify([
-        {'type': 'Courses Completed', 'content': '7/15 courses finished'},
-        {'type': 'Total Hours', 'content': '128 hours studied'},
-        {'type': 'Points Earned', 'content': '2,450 XP gained'},
-        {'type': 'Current Streak', 'content': '7 days active'}
-    ])
+    cursor.execute("UPDATE users SET points = points + 500 WHERE id=1")
+    cursor.execute("SELECT points FROM users WHERE id=1")
+    points = cursor.fetchone()[0]
+
+    conn.commit()
+    conn.close()
+    return jsonify({'points': points})
 
 if __name__ == '__main__':
     init_db()
-    print("🚀 EduLeap Backend LIVE! http://localhost:5000")
-    print("📊 Test: http://localhost:5000/api/courses (15+ courses)")
-    app.run(debug=True, port=5000)
+    print("🚀 Backend running at http://localhost:5000")
+    app.run(debug=True)
