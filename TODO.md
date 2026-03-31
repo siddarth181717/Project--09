@@ -1,35 +1,31 @@
-# Connect Backend to Frontend & Fix Workspace Issues
+# EduLeap LMS Deployment TODO
 
-## Approved Plan Steps:
+## Phase 1: Clean Up ✅ [PARTIAL]
+- [x] Delete `database.db` ✅
+- [x] Delete `TODO-FUNCTIONALITY.md` ✅
+- [ ] Delete `eduleap-lms/` (legacy - will overwrite)
+- [ ] Delete `instance/` (PowerShell pending)
 
-### 1. **Update frontend/app.js** (Replace mocks with API fetches)
-   - loadDashboard(): fetch user/stats
-   - loadCourses(): fetch courses
-   - loadProgress(): fetch others/achievements  
-   - loadCoursePlaylist(): fetch course video + modules (with completed status)
-   - markAsWatched(): POST complete-module
-   - completeCourse(): POST complete-course
-   - Add error handling/loading
+## Phase 2: Restructure ✅ [IN PROGRESS]
+- [ ] Move `backend/app.py` → `eduleap-lms/app.py`
 
-### 2. **Fix accessibility - frontend/index.html**
-   - Add placeholder/aria-label to search input
-   - Wrap cert checkboxes in proper <label>
-   - Add title attribute to video iframe
+## Phase 2: Restructure ✅ [PENDING]
+- [ ] Move `backend/app.py` → `eduleap-lms/app.py`
+- [ ] Create `eduleap-lms/static/` → move `frontend/*`
+- [ ] Copy `eduleap.db` → `eduleap-lms/`
 
-### 3. **Fix CSS Safari support - frontend/app.css**
-   - Add `-webkit-backdrop-filter` prefixes
+## Phase 3: Deployment Files ✅ [PENDING]
+- [ ] Create `eduleap-lms/requirements.txt`
+- [ ] Update `eduleap-lms/app.py` (add static_folder)
+- [ ] Create `eduleap-lms/run.py` (production runner)
+- [ ] Create `eduleap-lms/README.md` (deploy instructions)
 
-### 4. **Backend setup & deps**
-   - `pip install -r requirements.txt` (if needed)
-   - Start server: `cd backend && python app.py`
+## Phase 4: Test ✅ [PENDING]
+- [ ] `cd eduleap-lms && pip install -r requirements.txt`
+- [ ] `python run.py`
+- [ ] Test: http://localhost:5000 + /api/courses
 
-### 5. **Testing & Verification**
-   - Refresh frontend → real data loads from API
-   - Test modal: load course modules, mark watched → points update
-   - Complete course → bonus points
-   - Check browser console, db updates
+## Phase 5: Deploy ✅ [PENDING]
+- [ ] Heroku/PythonAnywhere instructions in README
 
-**Progress: 2/5 complete - app.js full API ✅ + Accessibility fixed ✅**
-
-**Next step: Fix CSS Safari backdrop-filter**
-
+**Current Progress: Starting Phase 1**

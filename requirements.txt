@@ -1,0 +1,5 @@
+Python
+Flask 
+Flask-CORS 
+SQLite3
+RESTAPI
