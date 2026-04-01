@@ -92,7 +92,7 @@
                             <div class="course-info">
                                 <strong>UX Design Fundamentals</strong>
                                 <div class="prog-bar">
-                                    <span class="prog-fill" style="width: 70%;"></span>
+                                    <span class="prog-fill prog-70"></span>
                                 </div>
                                 <div class="course-details">
                                     <p>Learn Google's UX Framework from basics to advanced</p>
@@ -109,7 +109,7 @@
                             <div class="course-info">
                                 <strong>Python Mastery</strong>
                                 <div class="prog-bar">
-                                    <span class="prog-fill" style="width: 85%;"></span>
+                                    <span class="prog-fill prog-85"></span>
                                 </div>
                                 <div class="course-details">
                                     <p>Master Python with Corey Schafer's complete course</p>
@@ -168,7 +168,7 @@
 
         <!-- CERT VIEW PAGE -->
         <div id="certView" class="page">
-            <button class="btn-glass" onclick="showPage('dashboard')" style="margin-bottom: 2rem;">
+            <button class="btn-glass btn-back-spacing" onclick="showPage('dashboard')">
                 ← Back to Dashboard
             </button>
             <div class="glass-card">
@@ -199,7 +199,7 @@
                         </label>
                     </li>
                 </ul>
-                <div id="certDownloadArea" style="display:none; text-align:center; margin-top:20px;">
+                <div id="certDownloadArea" class="cert-download-area">
                     <div class="success-msg">🎉 Certification Unlocked!</div>
                     <button class="btn-lime" onclick="alert('Downloading your certificate...')">
                         Download Certificate
@@ -210,10 +210,10 @@
     </main>
 </div>
 
-<div style="text-align: center; margin-top: 2rem;">
+<div class="button-container">
     
     <!-- ✅ NEW BUTTON -->
-    <button id="startVideoBtn" class="btn-lime" onclick="startVideo()" style="margin-right:10px;">
+    <button id="startVideoBtn" class="btn-lime start-video-btn" onclick="startVideo()">
         ▶ Start Video
     </button>
 
@@ -233,9 +233,7 @@
 
         <div class="video-layout-wrapper">
             <div class="video-main">
-                <div class="video-container">
-                    <iframe id="videoPlayer" src="" title="Course Video Player"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+
                             allowfullscreen>
                     </iframe>
                 </div>
@@ -247,7 +245,7 @@
                     <span class="badge" id="moduleCount">0 Videos</span>
                 </div>
                 
-                <div class="search-box" style="margin-bottom: 1rem;">
+                <div class="search-box playlist-search">
                     <i data-lucide="search"></i>
                     <input type="text" id="playlistSearchInput" placeholder="Filter topics..." onkeyup="filterPlaylists()">
                 </div>
@@ -256,8 +254,8 @@
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 2rem;">
-            <button id="completeBtn" class="btn-lime" onclick="completeCourse()">
+        <div class="button-container">
+            <button id="completeModalBtn" class="btn-lime" onclick="completeCourse()">
                 FINISH & GET CERTIFIED
             </button>
         </div>

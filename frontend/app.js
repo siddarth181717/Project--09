@@ -147,6 +147,11 @@ function openVideoModal(courseName) {
     document.getElementById('modalTitle').textContent = courseName;
     document.getElementById('videoModal').classList.add('show');
     loadCoursePlaylist(courseName);
+    
+    // Trigger play after load
+    setTimeout(() => {
+        playVideo();
+    }, 1000);
 }
 
 function closeVideoModal() {
@@ -166,8 +171,12 @@ async function loadCoursePlaylist(courseName) {
         const videoData = await videoRes.json();
         const modulesData = await modulesRes.json();
 
-        // Load video
-        document.getElementById('videoPlayer').src = videoData.video_url;
+        // Load video with autoplay params
+        let videoSrc = videoData.video_url;
+        if (videoSrc.includes('youtube.com/embed')) {
+            videoSrc += (videoSrc.includes('?') ? '&' : '?') + 'autoplay=1&mute=1&enablejsapi=1&playsinline=1';
+        }
+        document.getElementById('videoPlayer').src = videoSrc;
 
         // Load playlist
         const lecturesList = document.getElementById('lecturesList');
@@ -212,7 +221,11 @@ function loadCoursePlaylistFallback(courseName) {
     };
 
     const data = fallbackData[courseName] || fallbackData['UX Design Fundamentals'];
-    document.getElementById('videoPlayer').src = data.video_url;
+    let videoSrc = data.video_url;
+    if (videoSrc.includes('youtube.com/embed')) {
+        videoSrc += (videoSrc.includes('?') ? '&' : '?') + 'autoplay=1&mute=1&enablejsapi=1&playsinline=1';
+    }
+    document.getElementById('videoPlayer').src = videoSrc;
 
     const lecturesList = document.getElementById('lecturesList');
     lecturesList.innerHTML = data.modules.map(module => {
@@ -286,6 +299,14 @@ function logout() {
         window.location.reload();
     }
 }
+
+// Helper to trigger video play (user gesture compliant)
+window.playVideo = function() {
+    const player = document.getElementById('videoPlayer');
+    if (player && player.play) {
+        player.play().catch(e => console.log('Autoplay prevented:', e));
+    }
+};
 
 // --- CERTIFICATION ---
 function checkComplete() {
