@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="v68sn9DwT79wUjmTb3Clm78P7YhRwpXsaseEDM4w5PQ" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduLeap | Professional LMS Dashboard</title>
@@ -9,7 +8,7 @@
     <link rel="stylesheet" href="app.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="dark"> <!-- Added default dark mode -->
+<body class="dark">
 
 <div class="container">
     <aside class="sidebar">
@@ -34,18 +33,16 @@
         </ul>
         <div class="sidebar-bottom">
             <ul>
-                <li onclick="logout()">
-                    <i data-lucide="log-out"></i> Logout
-                </li>
+                <li onclick="logout()"><i data-lucide="log-out"></i> Logout</li>
             </ul>
         </div>
     </aside>
 
-    <main class="main"> <!-- Added missing 'main' class -->
+    <main class="main">
         <div class="topbar">
             <div class="search-box">
                 <i data-lucide="search"></i>
-                <input type="text" placeholder="Search for courses or topics...">
+                <input type="text" placeholder="Search for courses...">
             </div>
             <div class="top-actions">
                 <div class="icon-btn ripple" onclick="toggleDarkMode()">
@@ -56,17 +53,16 @@
                     <i data-lucide="chevron-down"></i>
                 </div>
                 <div id="profileDropdown" class="profile-dropdown">
-                    <div class="profile-item"><strong id="profileName">Alex Dev</strong></div>
+                    <div class="profile-item"><strong>Alex Dev</strong></div>
                     <div class="profile-item" onclick="logout()">Logout</div>
                 </div>
             </div>
         </div>
 
-        <!-- DASHBOARD PAGE -->
         <div id="dashboard" class="page active">
             <div class="hero-card">
                 <div class="hero-text">
-                    <h1 id="welcome">Welcome back, Alex!</h1>
+                    <h1>Welcome back, Alex!</h1>
                     <p>Track your progress, watch playlists, and earn certifications.</p>
                     <div class="hero-btns">
                         <button class="btn-lime" onclick="showPage('courses')">Browse All Courses</button>
@@ -87,186 +83,159 @@
                     </div>
                     <div class="courses-grid-layout">
                         <div class="course-mini-card theme-purple">
-                            <div class="course-avatar">
-                                <img src="https://i.pravatar.cc/40?img=1" alt="Instructor">
-                            </div>
+                            <div class="course-avatar"><img src="https://i.pravatar.cc/40?img=1" alt="UX Design Fundamentals course avatar"></div>
                             <div class="course-info">
                                 <strong>UX Design Fundamentals</strong>
-                                <div class="prog-bar">
-                                    <span class="prog-fill prog-70"></span>
-                                </div>
+                                <div class="prog-bar"><span class="prog-fill prog-70"></span></div>
                                 <div class="course-details">
-                                    <p>Learn Google's UX Framework from basics to advanced</p>
-                                    <button class="btn-lime-small" onclick="openVideoModal('UX Design Fundamentals')">
-                                        Continue
-                                    </button>
+                                    <p>Learn Google's UX Framework</p>
+                                    <button class="btn-lime-small" onclick="openVideoModal('UX Design')">Continue</button>
                                 </div>
                             </div>
                         </div>
                         <div class="course-mini-card theme-blue">
-                            <div class="course-avatar">
-                                <img src="https://i.pravatar.cc/40?img=2" alt="Instructor">
-                            </div>
+                            <div class="course-avatar"><img src="https://i.pravatar.cc/40?img=2" alt="Python Mastery course avatar"></div>
                             <div class="course-info">
                                 <strong>Python Mastery</strong>
-                                <div class="prog-bar">
-                                    <span class="prog-fill prog-85"></span>
-                                </div>
+                                <div class="prog-bar"><span class="prog-fill prog-85"></span></div>
                                 <div class="course-details">
-                                    <p>Master Python with Corey Schafer's complete course</p>
-                                    <button class="btn-lime-small" onclick="openVideoModal('Python Mastery')">
-                                        Continue
-                                    </button>
+                                    <p>Master Python programming</p>
+                                    <button class="btn-lime-small" onclick="openVideoModal('Python Mastery')">Continue</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="glass-card">
                     <div class="card-header">
                         <h3>Quick Stats</h3>
-                        <a href="#" class="see-all">View All</a>
                     </div>
                     <div class="stats-row">
-                        <div class="stat-item">
-                            <h2>8</h2>
-                            <p>Hrs Today</p>
-                        </div>
-                        <div class="stat-item">
-                            <h2>42</h2>
-                            <p>Hrs Week</p>
-                        </div>
+                        <div class="stat-item"><h2>8</h2><p>Hrs Today</p></div>
+                        <div class="stat-item"><h2>42</h2><p>Hrs Week</p></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- COURSES PAGE -->
         <div id="courses" class="page">
             <div class="glass-card">
                 <div class="card-header">
-                    <h3>Your Enrolled Playlists</h3>
-                    <a href="#" class="see-all">Browse More</a>
+                    <h3>All Available Courses</h3>
+                    <span class="courses-badge">8 Courses</span>
                 </div>
-                <div id="coursesList" class="courses-detailed-layout">
-                    <!-- Dynamic content -->
-                </div>
+                <div id="coursesList" class="courses-detailed-layout"></div>
             </div>
         </div>
 
-        <!-- PROGRESS PAGE -->
         <div id="progress" class="page">
             <div class="glass-card">
-                <div class="card-header">
-                    <h3>Learning Achievements</h3>
-                    <a href="#" class="see-all">View History</a>
-                </div>
+                <h3>Learning Achievements</h3>
                 <div id="progressContent" class="stats-grid-layout">
-                    <!-- Dynamic content -->
+                    <div class="stat-widget staggered-1">
+                        <i data-lucide="award" class="widget-icon"></i>
+                        <strong>5 Certificates</strong>
+                        <p>Earned this year</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- CERT VIEW PAGE -->
         <div id="certView" class="page">
-            <button class="btn-glass btn-back-spacing" onclick="showPage('dashboard')">
-                ← Back to Dashboard
-            </button>
+            <button class="btn-glass btn-margin-bottom" onclick="showPage('dashboard')">← Back</button>
             <div class="glass-card">
-                <h3 id="currentCourseTitle">Certification Checklist</h3>
+                <h3>Certification Checklist</h3>
                 <ul class="checklist">
-<li>
-                        <label>
-                            <input type="checkbox" class="topic-check" onchange="checkComplete()">
-                            Finished Video Playlist
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="checkbox" class="topic-check" onchange="checkComplete()">
-                            Practical Assignments
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="checkbox" class="topic-check" onchange="checkComplete()">
-                            Peer Review Session
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="checkbox" class="topic-check" onchange="checkComplete()">
-                            Final Project Submission
-                        </label>
-                    </li>
+                    <li><label><input type="checkbox" class="topic-check" onchange="checkComplete()"> Video Playlist</label></li>
+                    <li><label><input type="checkbox" class="topic-check" onchange="checkComplete()"> Assignments</label></li>
+                    <li><label><input type="checkbox" class="topic-check" onchange="checkComplete()"> Project Submission</label></li>
                 </ul>
-                <div id="certDownloadArea" class="cert-download-area">
+                <div id="certDownloadArea" class="cert-download-area cert-hidden">
                     <div class="success-msg">🎉 Certification Unlocked!</div>
-                    <button class="btn-lime" onclick="alert('Downloading your certificate...')">
-                        Download Certificate
-                    </button>
+                    <button class="btn-lime">Download Certificate</button>
                 </div>
             </div>
         </div>
     </main>
 </div>
 
-<div class="button-container">
-    
-    <!-- ✅ NEW BUTTON -->
-    <button id="startVideoBtn" class="btn-lime start-video-btn" onclick="startVideo()">
-        ▶ Start Video
-    </button>
-
-    <!-- Existing button (unchanged) -->
-    <button id="completeBtn" class="btn-lime" onclick="completeCourse()">
-        FINISH & GET CERTIFIED
-    </button>
-</div>
-
-<!-- VIDEO MODAL -->
 <div id="videoModal" class="modal">
     <div class="modal-content extended">
         <div class="modal-header">
             <h3 id="modalTitle">Course Player</h3>
             <i data-lucide="x" class="close-btn" onclick="closeVideoModal()"></i>
         </div>
-
         <div class="video-layout-wrapper">
             <div class="video-main">
-
-                            allowfullscreen>
-                    </iframe>
+                <div class="video-container">
+                    <iframe id="videoPlayer" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0" 
+                        title="Course video player" 
+                        width="100%" height="100%"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
                 </div>
             </div>
-
             <div class="playlist-sidebar">
-                <div class="card-header">
-                    <h4>Playlist Modules</h4>
-                    <span class="badge" id="moduleCount">0 Videos</span>
+                <h4>Playlist Modules</h4>
+                <div class="search-box search-box-full">
+                    <input type="text" placeholder="Filter topics...">
                 </div>
-                
-                <div class="search-box playlist-search">
-                    <i data-lucide="search"></i>
-                    <input type="text" id="playlistSearchInput" placeholder="Filter topics..." onkeyup="filterPlaylists()">
-                </div>
-
                 <ul id="lecturesList" class="lectures-section"></ul>
+                <div class="modal-actions">
+                    <button class="btn-lime btn-finish-course" onclick="completeCourse()">Complete Course</button>
+                    <button class="btn-glass btn-modal-close" onclick="closeVideoModal()">Close</button>
+                </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="button-container">
-            <button id="completeModalBtn" class="btn-lime" onclick="completeCourse()">
-                FINISH & GET CERTIFIED
-            </button>
+<div id="certificateModal" class="modal">
+    <div class="modal-content certificate-modal-content">
+        <div class="certificate-wrapper">
+            <div class="certificate-container">
+                <div class="certificate-header">
+                    <i data-lucide="award" class="cert-icon"></i>
+                    <h2>Course Completion Certificate</h2>
+                </div>
+                
+                <div class="certificate-body">
+                    <p class="cert-greeting">🎉 Congratulations! 🎉</p>
+                    
+                    <div class="cert-message">
+                        <p>You have successfully completed the</p>
+                        <h3 id="certCourseName">Course Name</h3>
+                        <p>course with outstanding dedication and commitment to learning.</p>
+                    </div>
+
+                    <div class="cert-details">
+                        <div class="cert-detail-item">
+                            <p class="detail-label">Completed on</p>
+                            <p class="detail-value" id="certDate">Jan 15, 2025</p>
+                        </div>
+                        <div class="cert-detail-item">
+                            <p class="detail-label">Proficiency Level</p>
+                            <p class="detail-value">Advanced</p>
+                        </div>
+                    </div>
+
+                    <p class="cert-footer">This certificate acknowledges and validates your achievement. Share it with pride!</p>
+                </div>
+
+                <div class="certificate-actions">
+                    <button type="button" class="btn-lime" onclick="downloadCertificate()">
+                        <i data-lucide="download"></i> Download Certificate
+                    </button>
+                    <button type="button" class="btn-glass" onclick="closeCertificateModal()">Back to Dashboard</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="app.js"></script>
-<script>
-    // Initialize Lucide icons on load
-    lucide.createIcons();
-</script>
 </body>
 </html>
