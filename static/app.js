@@ -300,6 +300,10 @@ function logout() {
     }
 }
 
+function login() {
+    window.location.href="/home";
+}
+
 // Helper to trigger video play (user gesture compliant)
 window.playVideo = function() {
     const player = document.getElementById('videoPlayer');
