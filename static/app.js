@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = 'https://project-09-8d42.onrender.com';
 let currentCourse = '';
 const CERTIFICATE_SESSION_KEY = 'activeCertificate';
 
@@ -662,6 +662,14 @@ function logout() {
         window.location.reload();
     }
 }
+
+// Helper to trigger video play (user gesture compliant)
+window.playVideo = function() {
+    const player = document.getElementById('videoPlayer');
+    if (player && player.play) {
+        player.play().catch(e => console.log('Autoplay prevented:', e));
+    }
+};
 
 // --- CERTIFICATION ---
 function checkComplete() {

@@ -1,10 +1,13 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request , render_template
 import flask_cors
 import sqlite3
 
 app = Flask(__name__)
 flask_cors.CORS(app)
 
+@app.route("/")
+def home():
+    return render_template("index.html")
 DB_PATH = 'eduleap.db'
 
 def init_db():
