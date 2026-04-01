@@ -1,4 +1,4 @@
-const BASE_URL = 'https://project-09-8d42.onrender.comgitt';
+const BASE_URL = 'https://project-09-8d42.onrender.com';
 let currentCourse = '';
 
 // Initialize on load
