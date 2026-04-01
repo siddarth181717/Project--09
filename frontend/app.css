@@ -250,8 +250,8 @@ body {
 /* --- GLASS CARD --- */
 .glass-card {
     background: var(--glass);
-    backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 28px;
     padding: 2rem;
@@ -403,8 +403,8 @@ body {
     padding: 1.5rem 2rem;
     transition: 0.4s ease-in-out;
     cursor: pointer;
-    backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
     overflow: hidden;
     position: relative;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
