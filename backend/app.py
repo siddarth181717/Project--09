@@ -5,10 +5,6 @@ import sqlite3
 app = Flask(__name__)
 flask_cors.CORS(app)
 
-@app.route("/")
-def login():
-    return render_template("login.html")
-
 @app.route("/home")
 def home():
     return render_template("index.html")
