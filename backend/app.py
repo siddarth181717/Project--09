@@ -5,6 +5,9 @@ import sqlite3
 app = Flask(__name__)
 flask_cors.CORS(app)
 
+@app.route("/")
+def home():
+    return "Hello, Vercel!"
 DB_PATH = 'eduleap.db'
 
 def init_db():
