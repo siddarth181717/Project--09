@@ -1,4 +1,4 @@
-const BASE_URL = 'https://project-09-8d42.onrender.com';
+const BASE_URL = '';
 let currentCourse = '';
 const CERTIFICATE_SESSION_KEY = 'activeCertificate';
 
@@ -142,8 +142,8 @@ function toggleDarkMode() {
 async function loadDashboard() {
     try {
         const [userRes, statsRes] = await Promise.all([
-            fetch(`${BASE_URL}/user`),
-            fetch(`${BASE_URL}/stats`)
+            fetch(`${BASE_URL}/api/user`),
+            fetch(`${BASE_URL}/api/stats`)
         ]);
         const user = await userRes.json();
         const stats = await statsRes.json();
@@ -165,7 +165,7 @@ async function loadDashboard() {
 // --- COURSES PAGE ---
 async function loadCourses() {
     try {
-        const res = await fetch(`${BASE_URL}/courses`);
+        const res = await fetch(`${BASE_URL}/api/courses`);
         if (!res.ok) throw new Error('API returned non-ok status');
         const courses = await res.json();
         
@@ -260,7 +260,7 @@ function loadCoursesFallback() {
 // --- PROGRESS PAGE ---
 async function loadProgress() {
     try {
-        const res = await fetch(`${BASE_URL}/progress`);
+        const res = await fetch(`${BASE_URL}/api/progress`);
         const progressData = await res.json();
         renderProgress(progressData);
     } catch (error) {
@@ -363,8 +363,8 @@ async function loadCoursePlaylist(courseName) {
     try {
         console.log(`🔄 Fetching playlist data for: "${courseName}"`);
         const [videoRes, modulesRes] = await Promise.all([
-            fetch(`${BASE_URL}/course/${encodeURIComponent(courseName)}`),
-            fetch(`${BASE_URL}/course/${encodeURIComponent(courseName)}/modules`)
+            fetch(`${BASE_URL}/api/course/${encodeURIComponent(courseName)}`),
+            fetch(`${BASE_URL}/api/course/${encodeURIComponent(courseName)}/modules`)
         ]);
 
         if (!videoRes.ok || !modulesRes.ok) {
@@ -622,7 +622,7 @@ async function markAsWatched(element) {
     if (icon) { icon.setAttribute('data-lucide', 'check-circle'); lucide.createIcons(); }
 
     try {
-        await fetch(`${BASE_URL}/complete-video`, {
+        await fetch(`${BASE_URL}/api/complete-video`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
@@ -690,7 +690,7 @@ function completeCourse() {
     
     // Try to sync with backend
     try {
-        fetch(`${BASE_URL}/complete-course`, {
+        fetch(`${BASE_URL}/api/complete-course`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ course_name: currentCourse })

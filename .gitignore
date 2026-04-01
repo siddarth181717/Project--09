@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+*.db-journal
+render_eduleap.db
+test_sqlite.db
+smoke_write.txt
