@@ -1,8 +1,15 @@
 from flask import Flask, jsonify, request , render_template
 import flask_cors
 import sqlite3
+from pathlib import Path
 
-app = Flask(__name__)
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+app = Flask(
+    __name__,
+    template_folder='templates',
+    static_folder=str(BASE_DIR / 'static')
+)
 flask_cors.CORS(app)
 
 @app.route("/")
