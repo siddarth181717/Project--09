@@ -5,7 +5,7 @@ import sqlite3
 app = Flask(__name__)
 flask_cors.CORS(app)
 
-@app.route("/home")
+@app.route("/")
 def home():
     return render_template("index.html")
 DB_PATH = 'eduleap.db'
